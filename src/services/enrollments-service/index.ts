@@ -21,7 +21,7 @@ async function getAddressFromCEP(cep: string) {
     throw invalidDataError([result.statusText]);
   }
 
-  const address: ViaCEPAddress = {
+  const address = {
     logradouro: result.data.logradouro,
     complemento: result.data.complemento,
     bairro: result.data.bairro,
