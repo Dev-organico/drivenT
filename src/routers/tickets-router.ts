@@ -4,7 +4,10 @@ import { getTicketsByUser, getTicketsTypes } from '@/controllers/tickets-control
 
 const ticketsRouter = Router();
 
-ticketsRouter.all('/*', authenticateToken).get('/types', getTicketsTypes).get('/', getTicketsByUser);
-/*  .post('/', validateBody(),); */
+ticketsRouter
+  .all('/*', authenticateToken)
+  .get('/types', getTicketsTypes)
+  .get('/', getTicketsByUser)
+  .post('/', validateBody());
 
 export { ticketsRouter };

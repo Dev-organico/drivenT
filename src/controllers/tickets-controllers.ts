@@ -21,6 +21,6 @@ export async function getTicketsByUser(req: AuthenticatedRequest, res: Response,
 
     return res.status(httpStatus.OK).send(ticketsByUser);
   } catch (error) {
-    next(error);
+    return res.sendStatus(httpStatus.NOT_FOUND);
   }
 }
