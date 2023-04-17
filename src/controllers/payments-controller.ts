@@ -19,8 +19,16 @@ export async function getPaymentsFromTicketId(req: AuthenticatedRequest, res: Re
   }
 }
 
-export async function createPayment(req: AuthenticatedRequest, res: Response, next: NextFunction) {
+export async function createNewPayment(req: AuthenticatedRequest, res: Response, next: NextFunction) {
   const paymentBody: PaymentIn = req.body;
 
   const userId = req.userId as number;
+
+  try {
+    const paymentCreated = await paymentsService.createNewPayment(paymentBody, userId);
+
+    return res.status(httpStatus.OK).send(paymentCreated);
+  } catch (error) {
+    next(error);
+  }
 }
