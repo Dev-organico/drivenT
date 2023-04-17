@@ -33,10 +33,19 @@ async function postTicket(ticketTypeId: number, enrollmentId: number): Promise<T
   });
 }
 
+async function findTicketById(id: number): Promise<Ticket> {
+  return await prisma.ticket.findFirst({
+    where: {
+      id,
+    },
+  });
+}
+
 const ticketsRepository = {
   getTicketsTypes,
   getTicketsByUser,
   postTicket,
+  findTicketById,
 };
 
 export default ticketsRepository;
