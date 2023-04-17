@@ -44,5 +44,11 @@ export default paymentsService;
 
 export type PaymentIn = {
   ticketId: number;
-  cardData: object;
+  cardData: {
+    issuer: string;
+    number: number;
+    name: string;
+    expirationDate: Date;
+    cvv: number;
+  };
 };
