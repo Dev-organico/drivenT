@@ -1,7 +1,6 @@
 import Joi from 'joi';
-import { PaymentIn } from '@/services/payments-service';
 
-export const paymentsSchema = Joi.object<PaymentIn>({
+export const paymentsSchema = Joi.object({
   ticketId: Joi.number().required(),
   cardData: Joi.object().required(),
 });
