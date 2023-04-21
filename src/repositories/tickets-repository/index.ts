@@ -41,13 +41,10 @@ async function findTicketById(id: number): Promise<Ticket> {
   });
 }
 
-async function findTicketTypePriceById(id: number) {
+async function findTicketTypeById(id: number): Promise<TicketType> {
   return await prisma.ticketType.findFirst({
     where: {
       id,
-    },
-    select: {
-      price: true,
     },
   });
 }
@@ -69,7 +66,7 @@ const ticketsRepository = {
   postTicket,
   findTicketById,
   updateTicketStatusById,
-  findTicketTypePriceById,
+  findTicketTypeById,
 };
 
 export default ticketsRepository;

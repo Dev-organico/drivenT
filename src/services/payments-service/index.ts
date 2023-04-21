@@ -26,11 +26,11 @@ async function createNewPayment(paymentBody: PaymentIn, userId: number) {
 
   if (enrollmentFromUserId.id !== ticketFromId.enrollmentId) throw unauthorizedError();
 
-  const ticketTypePrice = (await ticketsRepository.findTicketTypePriceById(ticketFromId.ticketTypeId)).price;
+  const ticketType = await ticketsRepository.findTicketTypeById(ticketFromId.ticketTypeId);
 
   await ticketsRepository.updateTicketStatusById(paymentBody.ticketId);
 
-  const paymentCreated = await paymentsRepository.createNewPayment(paymentBody, ticketTypePrice);
+  const paymentCreated = await paymentsRepository.createNewPayment(paymentBody, ticketType.price);
 
   return paymentCreated;
 }
