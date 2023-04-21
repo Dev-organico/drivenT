@@ -9,13 +9,13 @@ async function findAllHotels(userId: number) {
 
   if (!enrollmentFromUserId) throw notFoundError();
 
-  const icketFromEnrollmentId = await ticketsRepository.findTicketByEnrollmentId(enrollmentFromUserId.id);
+  const ticketFromEnrollmentId = await ticketsRepository.findTicketByEnrollmentId(enrollmentFromUserId.id);
 
-  if (!icketFromEnrollmentId) throw notFoundError();
+  if (!ticketFromEnrollmentId) throw notFoundError();
 
-  const ticketType = await ticketsRepository.findTicketTypeById(icketFromEnrollmentId.ticketTypeId);
+  const ticketType = await ticketsRepository.findTicketTypeById(ticketFromEnrollmentId.ticketTypeId);
 
-  if (icketFromEnrollmentId.status !== 'PAID' || ticketType.includesHotel !== true || ticketType.isRemote === true) {
+  if (ticketFromEnrollmentId.status !== 'PAID' || ticketType.includesHotel !== true || ticketType.isRemote === true) {
     throw paymentRequiredError();
   }
 
