@@ -1,4 +1,5 @@
 import { Ticket, TicketType } from '@prisma/client';
+import enrollmentRepository from '../enrollment-repository';
 import { prisma } from '@/config';
 
 async function getTicketsTypes(): Promise<TicketType[]> {
@@ -49,6 +50,14 @@ async function findTicketTypeById(id: number): Promise<TicketType> {
   });
 }
 
+async function findTicketByEnrollmentId(enrollmentId: number) {
+  return await prisma.ticket.findFirst({
+    where: {
+      enrollmentId,
+    },
+  });
+}
+
 async function updateTicketStatusById(id: number) {
   await prisma.ticket.update({
     where: {
@@ -67,6 +76,7 @@ const ticketsRepository = {
   findTicketById,
   updateTicketStatusById,
   findTicketTypeById,
+  findTicketByEnrollmentId,
 };
 
 export default ticketsRepository;

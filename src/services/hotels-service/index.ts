@@ -9,13 +9,13 @@ async function findAllHotels(userId: number) {
 
   if (!enrollmentFromUserId) throw notFoundError();
 
-  const ticketFromId = await ticketsRepository.findTicketById(enrollmentFromUserId.id);
+  const icketFromEnrollmentId = await ticketsRepository.findTicketByEnrollmentId(enrollmentFromUserId.id);
 
-  if (!ticketFromId) throw notFoundError();
+  if (!icketFromEnrollmentId) throw notFoundError();
 
-  const ticketType = await ticketsRepository.findTicketTypeById(ticketFromId.ticketTypeId);
+  const ticketType = await ticketsRepository.findTicketTypeById(icketFromEnrollmentId.ticketTypeId);
 
-  if (ticketFromId.status !== 'PAID' || ticketType.includesHotel !== true || ticketType.isRemote === true) {
+  if (icketFromEnrollmentId.status !== 'PAID' || ticketType.includesHotel !== true || ticketType.isRemote === true) {
     throw paymentRequiredError();
   }
 
@@ -31,13 +31,13 @@ async function findHotelRoomsByHotelId(hotelId: number, userId: number) {
 
   if (!enrollmentFromUserId) throw notFoundError();
 
-  const ticketFromId = await ticketsRepository.findTicketById(enrollmentFromUserId.id);
+  const ticketFromEnrollmentId = await ticketsRepository.findTicketByEnrollmentId(enrollmentFromUserId.id);
 
-  if (!ticketFromId) throw notFoundError();
+  if (!ticketFromEnrollmentId) throw notFoundError();
 
-  const ticketType = await ticketsRepository.findTicketTypeById(ticketFromId.ticketTypeId);
+  const ticketType = await ticketsRepository.findTicketTypeById(ticketFromEnrollmentId.ticketTypeId);
 
-  if (ticketFromId.status !== 'PAID' || ticketType.includesHotel !== true || ticketType.isRemote === true) {
+  if (ticketFromEnrollmentId.status !== 'PAID' || ticketType.includesHotel !== true || ticketType.isRemote === true) {
     throw paymentRequiredError();
   }
 
