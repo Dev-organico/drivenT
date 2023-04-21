@@ -15,8 +15,9 @@ async function findAllHotels(userId: number) {
 
   const ticketType = await ticketsRepository.findTicketTypeById(ticketFromId.ticketTypeId);
 
-  if (ticketFromId.status !== 'PAID' || ticketType.includesHotel !== true || ticketType.isRemote === true)
+  if (ticketFromId.status !== 'PAID' || ticketType.includesHotel !== true || ticketType.isRemote === true) {
     throw paymentRequiredError();
+  }
 
   const allHotels = await hotelsRepository.findAllHotels();
 
@@ -36,8 +37,9 @@ async function findHotelRoomsByHotelId(hotelId: number, userId: number) {
 
   const ticketType = await ticketsRepository.findTicketTypeById(ticketFromId.ticketTypeId);
 
-  if (ticketFromId.status !== 'PAID' || ticketType.includesHotel !== true || ticketType.isRemote === true)
+  if (ticketFromId.status !== 'PAID' || ticketType.includesHotel !== true || ticketType.isRemote === true) {
     throw paymentRequiredError();
+  }
 
   const allHotels = await hotelsRepository.findAllHotels();
 
