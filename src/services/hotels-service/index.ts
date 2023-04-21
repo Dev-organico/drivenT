@@ -21,7 +21,7 @@ async function findAllHotels(userId: number) {
 
   const allHotels = await hotelsRepository.findAllHotels();
 
-  if (!allHotels) throw notFoundError();
+  if (allHotels.length === 0) throw notFoundError();
 
   return allHotels;
 }
@@ -43,7 +43,7 @@ async function findHotelRoomsByHotelId(hotelId: number, userId: number) {
 
   const allHotels = await hotelsRepository.findAllHotels();
 
-  if (!allHotels) throw notFoundError();
+  if (allHotels.length === 0) throw notFoundError();
 
   const allRoomsFromChosenHotel = await hotelsRepository.findHotelRoomsByHotelId(hotelId);
 

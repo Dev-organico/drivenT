@@ -16,7 +16,7 @@ export async function findAllHotels(req: AuthenticatedRequest, res: Response, ne
 }
 
 export async function findHotelRoomsByHotelId(req: AuthenticatedRequest, res: Response, next: NextFunction) {
-  const hotelId = +req.params as number;
+  const hotelId = +req.params.hotelId as number;
 
   const userId = req.userId as number;
 
