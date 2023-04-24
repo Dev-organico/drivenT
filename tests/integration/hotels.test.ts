@@ -178,7 +178,7 @@ describe('GET /hotels/rooms', () => {
       const ticketType = await createIsIncludedHotelTrueTicketType();
       await createTicket(createdEnrollment.id, ticketType.id, 'PAID');
       const createdHotel = await createHotel();
-      const room = await createRoom(createdHotel.id);
+      await createRoom(createdHotel.id);
       const token = await generateValidToken(user);
 
       const response = await server.get(`/hotels/${String(createdHotel.id)}`).set('Authorization', `Bearer ${token}`);
@@ -194,7 +194,7 @@ describe('GET /hotels/rooms', () => {
           image: expect.any(String),
           createdAt: expect.any(String),
           updatedAt: expect.any(String),
-          Rooms: expect.objectContaining([
+          Rooms: expect.arrayContaining([
             expect.objectContaining({
               id: expect.any(Number),
               name: expect.any(String),
