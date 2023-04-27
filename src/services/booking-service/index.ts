@@ -5,11 +5,11 @@ import enrollmentRepository from '@/repositories/enrollment-repository';
 import ticketsRepository from '@/repositories/tickets-repository';
 
 async function findBookingByUserId(userId: number) {
-  const bookingFromUserId = bookingRepository.findBookingByUserId(userId);
+  const bookingByUserId = bookingRepository.findBookingByUserId(userId);
 
-  if (!bookingFromUserId) return notFoundError();
+  if (!bookingByUserId) throw notFoundError();
 
-  return bookingFromUserId;
+  return bookingByUserId;
 }
 
 async function createBooking(userId: number, roomId: number) {
@@ -33,7 +33,9 @@ async function createBooking(userId: number, roomId: number) {
 
   const createdBooking = await bookingRepository.createBooking(userId, roomId);
 
-  return createdBooking;
+  return {
+    bookingId: createdBooking.id,
+  };
 }
 
 async function updateBooking(userId: number, roomId: number, bookingIdAsNumber: number) {
@@ -49,9 +51,11 @@ async function updateBooking(userId: number, roomId: number, bookingIdAsNumber: 
 
   if (bookingWithRoomId.length === roomById.capacity) throw forbiddenError();
 
-  const updatedBooking = bookingRepository.updateBooking(roomId, bookingIdAsNumber);
+  const updatedBooking = await bookingRepository.updateBooking(roomId, bookingIdAsNumber);
 
-  return updatedBooking;
+  return {
+    bookingId: updatedBooking.id,
+  };
 }
 
 const bookingService = {
