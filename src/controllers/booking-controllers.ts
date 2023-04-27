@@ -34,10 +34,18 @@ export async function updateBooking(req: AuthenticatedRequest, res: Response, ne
 
   const roomId = req.body.roomId as number;
 
-  const bookingId = +req.params.bookingId as number;
+  const bookingId = req.params.bookingId;
+
+  const bookingIdAsNumber = parseFloat(bookingId) as number;
+
+  if (isNaN(bookingIdAsNumber)) {
+    return res
+      .status(httpStatus.BAD_REQUEST)
+      .send("The 'param' parameter value is not a valid number. Please provide a valid number.");
+  }
 
   try {
-    const createdBooking = await bookingService.updateBooking(userId, roomId, bookingId);
+    const createdBooking = await bookingService.updateBooking(userId, roomId, bookingIdAsNumber);
 
     return res.status(httpStatus.OK).send(createdBooking);
   } catch (error) {
