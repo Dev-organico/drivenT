@@ -36,7 +36,7 @@ export async function updateBooking(req: AuthenticatedRequest, res: Response, ne
 
   const bookingId = req.params.bookingId;
 
-  const bookingIdAsNumber = parseFloat(bookingId) as number;
+  const bookingIdAsNumber = parseInt(bookingId) as number;
 
   if (isNaN(bookingIdAsNumber)) {
     return res
@@ -45,9 +45,9 @@ export async function updateBooking(req: AuthenticatedRequest, res: Response, ne
   }
 
   try {
-    const createdBooking = await bookingService.updateBooking(userId, roomId, bookingIdAsNumber);
+    const updatedBooking = await bookingService.updateBooking(userId, roomId, bookingIdAsNumber);
 
-    return res.status(httpStatus.OK).send(createdBooking);
+    return res.status(httpStatus.OK).send(updatedBooking);
   } catch (error) {
     next(error);
   }
