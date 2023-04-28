@@ -3,13 +3,13 @@ import { Hotel } from '@prisma/client';
 import httpStatus from 'http-status';
 import * as jwt from 'jsonwebtoken';
 import supertest from 'supertest';
-import { createEnrollmentWithAddress, createUser, createTicketType, createTicket } from '../factories';
+import { createEnrollmentWithAddress, createUser, createTicket } from '../factories';
 import { cleanDb, generateValidToken } from '../helpers';
 import {
   createHotel,
   createIsIncludedHotelFalseTicketType,
   createIsIncludedHotelTrueTicketType,
-  createIsRemoteTrueTrueTicketType,
+  createIsRemoteTrueTicketType,
   createRoom,
 } from '../factories/hotels-factory';
 import { prisma } from '@/config';
@@ -27,7 +27,7 @@ const server = supertest(app);
 
 describe('GET /hotels', () => {
   it('should respond with status 401 if no token is given', async () => {
-    const response = await server.get('/tickets/types');
+    const response = await server.get('/hotels');
 
     expect(response.status).toBe(httpStatus.UNAUTHORIZED);
   });
@@ -35,7 +35,7 @@ describe('GET /hotels', () => {
   it('should respond with status 401 if given token is not valid', async () => {
     const token = faker.lorem.word();
 
-    const response = await server.get('/tickets/types').set('Authorization', `Bearer ${token}`);
+    const response = await server.get('/hotels').set('Authorization', `Bearer ${token}`);
 
     expect(response.status).toBe(httpStatus.UNAUTHORIZED);
   });
@@ -44,7 +44,7 @@ describe('GET /hotels', () => {
     const userWithoutSession = await createUser();
     const token = jwt.sign({ userId: userWithoutSession.id }, process.env.JWT_SECRET);
 
-    const response = await server.get('/tickets/types').set('Authorization', `Bearer ${token}`);
+    const response = await server.get('/hotels').set('Authorization', `Bearer ${token}`);
 
     expect(response.status).toBe(httpStatus.UNAUTHORIZED);
   });
@@ -125,7 +125,7 @@ describe('GET /hotels', () => {
       const user = await createUser();
       const token = await generateValidToken(user);
       const createdEnrollment = await createEnrollmentWithAddress(user);
-      const ticketType = await createIsRemoteTrueTrueTicketType();
+      const ticketType = await createIsRemoteTrueTicketType();
       await createTicket(createdEnrollment.id, ticketType.id, 'PAID');
 
       const response = await server.get('/hotels').set('Authorization', `Bearer ${token}`);
@@ -149,7 +149,7 @@ describe('GET /hotels', () => {
 
 describe('GET /hotels/rooms', () => {
   it('should respond with status 401 if no token is given', async () => {
-    const response = await server.get('/tickets/types');
+    const response = await server.get('/hotels/1');
 
     expect(response.status).toBe(httpStatus.UNAUTHORIZED);
   });
@@ -157,7 +157,7 @@ describe('GET /hotels/rooms', () => {
   it('should respond with status 401 if given token is not valid', async () => {
     const token = faker.lorem.word();
 
-    const response = await server.get('/tickets/types').set('Authorization', `Bearer ${token}`);
+    const response = await server.get('/hotels/1').set('Authorization', `Bearer ${token}`);
 
     expect(response.status).toBe(httpStatus.UNAUTHORIZED);
   });
@@ -166,7 +166,7 @@ describe('GET /hotels/rooms', () => {
     const userWithoutSession = await createUser();
     const token = jwt.sign({ userId: userWithoutSession.id }, process.env.JWT_SECRET);
 
-    const response = await server.get('/tickets/types').set('Authorization', `Bearer ${token}`);
+    const response = await server.get('/hotels/1').set('Authorization', `Bearer ${token}`);
 
     expect(response.status).toBe(httpStatus.UNAUTHORIZED);
   });
@@ -257,7 +257,7 @@ describe('GET /hotels/rooms', () => {
       const user = await createUser();
       const token = await generateValidToken(user);
       const createdEnrollment = await createEnrollmentWithAddress(user);
-      const ticketType = await createIsRemoteTrueTrueTicketType();
+      const ticketType = await createIsRemoteTrueTicketType();
       await createTicket(createdEnrollment.id, ticketType.id, 'PAID');
 
       const response = await server.get('/hotels').set('Authorization', `Bearer ${token}`);
@@ -278,8 +278,3 @@ describe('GET /hotels/rooms', () => {
     });
   });
 });
-
-async () => {
-  await prisma.room.deleteMany({});
-  await prisma.hotel.deleteMany({});
-};

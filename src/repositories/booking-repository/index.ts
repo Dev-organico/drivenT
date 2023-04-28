@@ -55,12 +55,12 @@ async function updateBooking(roomId: number, bookingIdAsNumber: number): Promise
   });
 }
 
-type BookingOnlyIdAndRooms = {
+export type BookingOnlyIdAndRooms = {
   id: number;
   Room: object;
 };
 
-type BookingOnlyId = {
+export type BookingOnlyId = {
   id: number;
 };
 
