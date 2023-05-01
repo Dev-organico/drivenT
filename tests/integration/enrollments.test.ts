@@ -15,6 +15,10 @@ beforeAll(async () => {
   await cleanDb();
 });
 
+beforeEach(async () => {
+  await cleanDb();
+});
+
 const server = supertest(app);
 
 describe('GET /enrollments', () => {
